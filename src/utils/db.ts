@@ -69,7 +69,7 @@ function initializeSchema(db: Database.Database): void {
       created_at TEXT NOT NULL DEFAULT (datetime('now'))
     );
 
-    );
+
 
     -- Pairing codes table
     CREATE TABLE IF NOT EXISTS pairing_codes (
