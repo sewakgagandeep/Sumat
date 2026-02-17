@@ -162,7 +162,7 @@ function getEnvOverrides(): Record<string, unknown> {
 
     for (const [envKey, configPath] of Object.entries(directMappings)) {
         const value = process.env[envKey];
-        if (value !== undefined) {
+        if (value !== undefined && value.trim() !== '') {
             setNestedValue(overrides, configPath, coerceValue(value));
         }
     }
