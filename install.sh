@@ -78,7 +78,7 @@ echo -e "\n${YELLOW}Step 4: Scheduling global command...${NC}"
 sudo tee /usr/local/bin/sumat > /dev/null << EOF
 #!/bin/bash
 cd "$INSTALL_DIR"
-GLOBAL_ execution=1 node dist/cli/index.js "\$@"
+GLOBAL_EXECUTION=1 node dist/cli/index.js "\$@"
 EOF
 sudo chmod +x /usr/local/bin/sumat
 echo -e "${GREEN}✓ 'sumat' command installed.${NC}"
