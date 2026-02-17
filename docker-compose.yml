@@ -1,0 +1,23 @@
+services:
+  sumat:
+    build: .
+    container_name: sumat
+    restart: unless-stopped
+    ports:
+      - "${SUMAT_GATEWAY_PORT:-18789}:18789"
+    volumes:
+      - sumat-data:/root/.sumat
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+      - SUMAT_GATEWAY_HOST=0.0.0.0
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:18789/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  sumat-data:
+    driver: local
