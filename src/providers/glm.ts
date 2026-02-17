@@ -16,12 +16,12 @@ export class GLMProvider implements LLMProvider {
     constructor() {
         const config = getConfig();
         const providerConfig = config.providers.glm;
-        this.model = providerConfig?.model || 'glm-4-plus';
+        this.model = providerConfig?.model || 'glm-4.7';
 
         if (providerConfig?.apiKey) {
             this.client = new OpenAI({
                 apiKey: providerConfig.apiKey,
-                baseURL: providerConfig.baseUrl || 'https://open.bigmodel.cn/api/paas/v4',
+                baseURL: providerConfig.baseUrl || 'https://api.z.ai/api/coding/paas/v4', // User requested z.ai coding endpoint
             });
         }
     }
