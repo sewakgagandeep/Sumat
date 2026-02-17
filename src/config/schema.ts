@@ -5,7 +5,7 @@ import { z } from 'zod';
 // ============================================
 
 const providerEntrySchema = z.object({
-    apiKey: z.string().min(1),
+    apiKey: z.string().optional(),
     baseUrl: z.string().optional(),
     model: z.string().optional(),
 });
@@ -41,7 +41,7 @@ export const configSchema = z.object({
 
     channels: z.object({
         telegram: z.object({
-            botToken: z.string().min(1),
+            botToken: z.string().optional(),
             allowedUsers: z.array(z.string()).optional(),
             allowedGroups: z.array(z.string()).optional(),
         }).optional(),
