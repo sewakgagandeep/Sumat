@@ -183,8 +183,12 @@ export async function bootstrap(): Promise<void> {
 }
 
 // Run if executed directly
-const isMainModule = process.argv[1]?.endsWith('index.ts') || process.argv[1]?.endsWith('index.js');
-if (isMainModule && !process.argv.includes('--no-auto-start')) {
+import { fileURLToPath } from 'url';
+const currentFilePath = fileURLToPath(import.meta.url);
+const entryFilePath = process.argv[1];
+
+// Only run if this file IS the entry point, or explicitly requested
+if (entryFilePath === currentFilePath && !process.argv.includes('--no-auto-start')) {
     bootstrap().catch(err => {
         logger.error('Fatal startup error', { error: err.message, stack: err.stack });
         process.exit(1);
