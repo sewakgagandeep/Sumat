@@ -38,7 +38,15 @@ Sumat comes pre-loaded with a powerful suite of tools:
 
 ---
 
-## 🚀 Quick Start
+## ⚡ One-Line Install
+
+Run this command on your Ubuntu/Debian server to install everything (Node.js, Repo, Dependencies, Service) automatically:
+
+```bash
+curl -sSL https://raw.githubusercontent.com/sewakgagandeep/Sumat/main/install.sh | bash
+```
+
+## 🚀 Quick Start (Manual)
 
 ### Prerequisites
 - Node.js 20+
