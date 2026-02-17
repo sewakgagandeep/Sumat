@@ -18,6 +18,18 @@ export interface CronJob {
     lastRun?: string;
 }
 
+interface CronJobRow {
+    id: string;
+    name: string;
+    schedule: string;
+    message: string;
+    channel_name: string | null;
+    chat_id: string | null;
+    user_id: string | null;
+    enabled: number;
+    last_run: string | null;
+}
+
 /**
  * Cron Scheduler — manages scheduled tasks.
  * Jobs are stored in SQLite for persistence across restarts.
@@ -123,17 +135,17 @@ export class CronScheduler {
      */
     listJobs(): CronJob[] {
         const db = getDb();
-        const rows = db.prepare('SELECT * FROM cron_jobs ORDER BY name').all() as any[];
+        const rows = db.prepare('SELECT * FROM cron_jobs ORDER BY name').all() as CronJobRow[];
         return rows.map(r => ({
             id: r.id,
             name: r.name,
             schedule: r.schedule,
             message: r.message,
-            channelName: r.channel_name,
-            chatId: r.chat_id,
-            userId: r.user_id,
+            channelName: r.channel_name || undefined,
+            chatId: r.chat_id || undefined,
+            userId: r.user_id || undefined,
             enabled: !!r.enabled,
-            lastRun: r.last_run,
+            lastRun: r.last_run || undefined,
         }));
     }
 
@@ -142,13 +154,13 @@ export class CronScheduler {
      */
     getJob(id: string): CronJob | null {
         const db = getDb();
-        const row = db.prepare('SELECT * FROM cron_jobs WHERE id = ?').get(id) as any;
+        const row = db.prepare('SELECT * FROM cron_jobs WHERE id = ?').get(id) as CronJobRow | undefined;
         if (!row) return null;
         return {
             id: row.id, name: row.name, schedule: row.schedule,
-            message: row.message, channelName: row.channel_name,
-            chatId: row.chat_id, userId: row.user_id,
-            enabled: !!row.enabled, lastRun: row.last_run,
+            message: row.message, channelName: row.channel_name || undefined,
+            chatId: row.chat_id || undefined, userId: row.user_id || undefined,
+            enabled: !!row.enabled, lastRun: row.last_run || undefined,
         };
     }
 
