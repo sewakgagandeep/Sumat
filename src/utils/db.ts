@@ -69,15 +69,7 @@ function initializeSchema(db: Database.Database): void {
       created_at TEXT NOT NULL DEFAULT (datetime('now'))
     );
 
-    -- Migration: Ensure user_id column exists
-    try {
-        db.prepare('ALTER TABLE cron_jobs ADD COLUMN user_id TEXT').run();
-    } catch (e: any) {
-        // Ignore "duplicate column name" error
-        if (!e.message.includes('duplicate column name')) {
-            // logger.warn('Migration warning:', e.message);
-        }
-    }
+    );
 
     -- Pairing codes table
     CREATE TABLE IF NOT EXISTS pairing_codes (
@@ -106,6 +98,17 @@ function initializeSchema(db: Database.Database): void {
     CREATE INDEX IF NOT EXISTS idx_usage_session ON usage(session_id);
     CREATE INDEX IF NOT EXISTS idx_usage_date ON usage(created_at);
   `);
+
+  // Migrations
+  try {
+    const columns = db.prepare('PRAGMA table_info(cron_jobs)').all() as any[];
+    const hasUserId = columns.some(c => c.name === 'user_id');
+    if (!hasUserId) {
+      db.prepare('ALTER TABLE cron_jobs ADD COLUMN user_id TEXT').run();
+    }
+  } catch (error) {
+    // Ignore
+  }
 }
 
 export function closeDb(): void {
