@@ -57,7 +57,7 @@ export class SessionManager {
     save(session: Session): void {
         const db = getDb();
         db.prepare(
-            'UPDATE sessions SET messages = ?, metadata = ?, updated_at = datetime("now") WHERE id = ?'
+            'UPDATE sessions SET messages = ?, metadata = ?, updated_at = datetime(\'now\') WHERE id = ?'
         ).run(
             JSON.stringify(session.messages),
             JSON.stringify(session.metadata),
